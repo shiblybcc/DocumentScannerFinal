@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+>
+
+<ui:composition template="layout.xhtml">
+    <ui:define name="content">
+
+
+        <h:form id="loginForm" prependId="false">
+        <!-- Messages must be global here, to show bad credentials -->
+        <h:messages globalOnly="true"/>
+
+        <!-- Id's must not be changed to support spring security check -->
+        <h:panelGrid columns="3">
+        <h:outputLabel for="username" value="User: * " />
+        <h:inputText id="username" required="true" label="username"/>
+        <h:message for="username" display="text" style="color:red"/>
+
+        <h:outputLabel for="password" value="Password: * " />
+        <h:inputSecret id="password" label="password" required="true" />
+        <h:message for="password" display="text" style="color:red"/>
+
+        <h:outputLabel for="_spring_security_remember_me" value="Remember me: " />
+        <h:selectBooleanCheckbox id="_spring_security_remember_me" />
+        </h:panelGrid>
+
+        <h:commandButton type="submit" id="login" value="Login" action="#{loginBean.doLogin()}" />
+
+        </h:form>
+
+        <!--<form id="login_form" action="#{request.contextPath}/login" method="post">-->
+            <!--<p>-->
+                <!--<label for="j_username" class="login-form-tag">User</label> <input-->
+                    <!--type="text" id="username" name="username" class="ui-corner-all"-->
+                    <!--required="required" />-->
+            <!--</p>-->
+            <!--<p>-->
+                <!--<label for="j_password" class="login-form-tag">Password</label>-->
+                <!--<input type="password" id="password" name="password"-->
+                       <!--class="ui-corner-all" required="required" />-->
+            <!--</p>-->
+            <!--<p>-->
+                <!--<button type="submit"-->
+                        <!--class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">-->
+                    <!--<span class="ui-button-text">Login</span>-->
+                <!--</button>-->
+            <!--</p>-->
+        <!--</form>-->
+
+
+    </ui:define>
+</ui:composition>
+</html>
