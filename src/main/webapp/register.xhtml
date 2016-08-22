@@ -17,7 +17,7 @@
 
             <h:panelGrid columns="3" id="RegisterGroupPanel">
 
-                <f:event listener="#{userBean.validatePassword}" type="postValidate" />
+                <f:event listener="#{userValidator.validatePassword}" type="postValidate" />
 
                 <h:outputLabel for="username" value="Username : " />
                 <h:inputText id="username" value="#{userBean.user.username}" required="true"

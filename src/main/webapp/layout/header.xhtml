@@ -15,16 +15,15 @@
                     <h1><h:link value="RWTH" outcome="index" /></h1>
                     <nav role="navigation">
                         <ul>
-                            <li><h:link value="Files" outcome="file" /></li>
-                            <li>
-                                    <h:link value="Login" outcome="login" />
-                                    <h:link value="Register" outcome="register" />
-                                    <h:link value="Users" outcome="users" />
-
-                            </li>
-                            <li>
-
-                            </li>
+                            <c:if test="#{request.remoteUser == null}">
+                                <li><h:link value="Login" outcome="login" /></li>
+                                <li><h:link value="Register" outcome="register" /></li>
+                            </c:if>
+                            <c:if test="#{request.remoteUser != null}">
+                                <li><h:link value="Files" outcome="file" /></li>
+                                <li><h:link value="Users" outcome="users" /></li>
+                                <li><h:link value="Logout" outcome="logout" /></li>
+                            </c:if>
                         </ul>
                     </nav>
                 </div>

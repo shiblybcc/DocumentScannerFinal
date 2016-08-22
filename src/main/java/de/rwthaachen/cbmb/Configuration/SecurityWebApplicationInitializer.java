@@ -1,4 +1,4 @@
-package de.rwthaachen.cbmb;
+package de.rwthaachen.cbmb.Configuration;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

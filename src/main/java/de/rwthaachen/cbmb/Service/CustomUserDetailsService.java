@@ -22,6 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
         de.rwthaachen.cbmb.Domain.User user = customUserService.findByUsername(username);
+//        de.rwthaachen.cbmb.Domain.User user = customUserService.findByUsername("asdflk");
         if (user == null) {
             return null;
         }
@@ -29,6 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .commaSeparatedStringToAuthorityList("ROLE_USER");
 
         String password = user.getPassword();
+//        return new org.springframework.security.core.userdetails.User("asdflk", password, true, true, true, true,
         return new org.springframework.security.core.userdetails.User(username, password, true, true, true, true,
                 auth);
     }

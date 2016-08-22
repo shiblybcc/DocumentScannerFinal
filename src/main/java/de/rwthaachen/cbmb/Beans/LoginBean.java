@@ -1,5 +1,9 @@
 package de.rwthaachen.cbmb.Beans;
 
+import org.apache.tomcat.util.net.jsse.openssl.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
@@ -27,8 +31,16 @@ public class LoginBean {
         return "index.xhtml";
     }
 
-    public String logout(){
+    public String logout() throws IOException, ServletException{
 
-        return "login.xhtml";
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+
+        RequestDispatcher dispatcher = ((ServletRequest) context.getRequest()).getRequestDispatcher("/j_spring_security_logout");
+
+        dispatcher.forward((ServletRequest) context.getRequest(), (ServletResponse) context.getResponse());
+
+        FacesContext.getCurrentInstance().responseComplete();
+
+        return "login.xhtml?faces-redirect=true";
     }
 }

@@ -13,6 +13,10 @@ import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
+//generate private public keys: run following commands in terminal
+//        openssl genrsa -out private.pem 2048
+//        openssl pkcs8 -topk8 -in private.pem -outform DER -out private.der -nocrypt
+//        openssl rsa -in private.pem -pubout -outform DER -out public.der
 
 public class FileEncryption {
     final int AES_Key_Size = 256;

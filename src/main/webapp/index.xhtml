@@ -12,6 +12,8 @@
 
         <h:form  enctype="multipart/form-data">
 
+            <f:event listener="#{scannedFileValidator.validateForm}" type="postValidate" />
+
             <h:outputLabel for="fallnummer" value="Fallnummer: " />
             <p:inputText id="fallnummer" value="#{scannedFileBean.scannedFile.fallnummer}" required="true"
                          requiredMessage="Please enter fallnummer" />

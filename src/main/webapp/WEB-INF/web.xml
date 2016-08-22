@@ -11,7 +11,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>*.jsf</url-pattern>
+        <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
 
     <session-config>
@@ -35,7 +35,6 @@
         <param-value>true</param-value>
     </context-param>
     <error-page>
-        <error-code>404</error-code>
         <location>/errorpages/404.xhtml</location>
     </error-page>
 

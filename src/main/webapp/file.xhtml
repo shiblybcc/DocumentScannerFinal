@@ -16,12 +16,12 @@
 
             <h:column>
                 <f:facet name="header">Fallnummer</f:facet>
-                <h:outputText value="#{scannedFileBean.scannedFile.fallnummer}" />
+                <h:outputText value="#{scannedFile.fallnummer}" />
             </h:column>
 
             <h:column>
                 <f:facet name="header">Download </f:facet>
-                <a href="#" onclick="uploadFile(#{scannedFileBean.scannedFile.id})" data-toggle="modal" data-target="#myModal">
+                <a href="#" onclick="uploadFile(#{scannedFile.id})" data-toggle="modal" data-target="#myModal">
                     <h:graphicImage value="resources/images/download.png" />
                 </a>
             </h:column>
@@ -36,7 +36,11 @@
                         <h4 class="modal-title" id="myModalLabel">Upload private key</h4>
                     </div>
                     <h:form  enctype="multipart/form-data" id="uploadKey">
+
+                        <h:messages style="color:red;margin:8px;" />
+
                         <div class="modal-body">
+                            <h:message for="scannedFileId" style="color: red;" />
 
                             *The order of private key files must be maintained <br/><br/>
                             <h:inputHidden value="" id="scannedFileId" />
@@ -46,7 +50,9 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <h:commandButton value="Upload" class="btn btn-primary" action="#{scannedFileBean.download()}"/>
+                            <h:commandButton value="Upload" class="btn btn-primary" action="#{scannedFileBean.download()}">
+                            <f:actionListener binding="#{scannedFileBean.testing()}" />
+                            </h:commandButton>
                         </div>
                     </h:form>
                 </div>
