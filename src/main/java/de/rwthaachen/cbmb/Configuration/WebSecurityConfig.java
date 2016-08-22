@@ -52,9 +52,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
 
         http.authorizeRequests()
-                .antMatchers("/register", "/resources/**", "resources/**").permitAll()
+                .antMatchers("/register", "/resources/**", "/*/*.css.*", "/*/*.js.*", "/*/*/*.js.*").permitAll()
                 .anyRequest().authenticated()
-                .and().formLogin().loginPage("/login").permitAll()
+                .and().formLogin().loginPage("/login").defaultSuccessUrl("/", true).permitAll()
 //                .usernameParameter("username").passwordParameter("password")
                 .and().exceptionHandling().accessDeniedPage("/Access_Denied");
     }
@@ -65,74 +65,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.csrf().disable();
-//
-//        http.authorizeRequests()
-//                .antMatchers("/logout", "/register", "/console", "/console/*", "/console/**", "resources/**",
-//                        "resources/**/**").permitAll()
-////                .antMatchers("/admin/**","/newuser").permitAll()
-////                .antMatchers("/db/**").permitAll()
-//                .anyRequest().authenticated()
-//                .and().formLogin().loginPage("/login");
-////                .usernameParameter("username").passwordParameter("password");
-////                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/index");
-////                .usernameParameter("username").passwordParameter("password")
-////                .and().exceptionHandling().accessDeniedPage("/Access_Denied");
-//    }
-
 //    @Autowired
 //    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 //        auth.inMemoryAuthentication().withUser("asdflk").password("asdflk").roles("USER");
 //    }
 
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//
-//        http.csrf().disable();
-//
-//        http.authorizeRequests()
-//                .antMatchers("/**", "/*", "resources/**").permitAll()
-////                .antMatchers("/*").hasRole("USER")
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin().loginPage("/login").permitAll()
-//                .and()
-//                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login");
-//
-//
-////        http
-////                .authorizeRequests()
-////                .antMatchers("/login", "/logout", "/register", "/console", "/console/*", "/console/**", "resources/**").permitAll()
-////                .anyRequest().authenticated()
-////                .and()
-////                .formLogin()
-////                .loginPage("/login")
-////                .permitAll();
-//
-//        // Logout and redirection:
-//        //
-////        http.logout()
-////                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-////                .invalidateHttpSession(true)
-////                .logoutSuccessUrl("/login");
-////
-////        http.authorizeRequests()
-////                .antMatchers("/login", "/logout", "/register", "resources/**").permitAll()
-////                .anyRequest().authenticated()
-////                .and()
-////                .formLogin()
-////                .loginPage("/login")
-////                .loginProcessingUrl("/login");
-//    }
-
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth)
-//            throws Exception {
-//        auth.inMemoryAuthentication()
-//                .withUser("user").password("user").roles("USER");
-//    }
 }
