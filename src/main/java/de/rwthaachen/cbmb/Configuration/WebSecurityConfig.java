@@ -14,6 +14,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.header.HeaderWriter;
+import org.springframework.security.web.header.writers.DelegatingRequestMatcherHeaderWriter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 @ComponentScan("de.rwthaachen.cbmb")
@@ -52,11 +58,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
 
         http.authorizeRequests()
-                .antMatchers("/register", "/resources/**", "/*/*.css.*", "/*/*.js.*", "/*/*/*.js.*").permitAll()
+//                .antMatchers("/register", "/resources/**", "/*/*.css.*", "/*/*.js.*", "/*/*/*.js.*").permitAll()
+                .antMatchers("/register", "/javax.faces.resource/**").permitAll()
+                .antMatchers("/**").authenticated()
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").defaultSuccessUrl("/", true).permitAll()
 //                .usernameParameter("username").passwordParameter("password")
                 .and().exceptionHandling().accessDeniedPage("/Access_Denied");
+
+//        cache static resources
+        http.headers()
+                .addHeaderWriter(new DelegatingRequestMatcherHeaderWriter(
+                        new AntPathRequestMatcher("/javax.faces.resource/**"),
+                        new HeaderWriter() {
+
+                            @Override
+                            public void writeHeaders(HttpServletRequest request,
+                                                     HttpServletResponse response) {
+                                response.addHeader("Cache-Control", "private, max-age=86400");
+                            }
+                        }))
+                .defaultsDisabled();
     }
 
     @Autowired

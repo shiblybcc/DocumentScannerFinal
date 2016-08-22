@@ -82,6 +82,4 @@ buildNumber.properties
 .gitignore
 src/test/
 
-src/main/webapp/WEB-INF/classes/
-src/main/webapp/WEB-INF/classes/**
-
+/src/main/webapp/WEB-INF/classes/
