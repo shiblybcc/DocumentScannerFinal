@@ -1,6 +1,8 @@
 package de.rwthaachen.cbmb.FormValidator;
 
 
+import de.rwthaachen.cbmb.Utility.ApplicationHelpers;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -40,11 +42,7 @@ public class UserValidator {
         }
 
         if (!password.equals(confirmPassword)) {
-
-            FacesMessage msg = new FacesMessage(
-                    "Password must match confirm password");
-            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-            fc.addMessage(passwordId, msg);
+            ApplicationHelpers.setErrorMessage("Password must match confirm password", passwordId);
             fc.renderResponse();
         }
 

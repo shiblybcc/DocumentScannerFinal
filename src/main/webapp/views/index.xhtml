@@ -12,6 +12,7 @@
 
         <h:form  enctype="multipart/form-data">
 
+            <!--<h:messages globalOnly="true"/>-->
             <f:event listener="#{scannedFileValidator.validateForm}" type="postValidate" />
 
             <h:outputLabel for="fallnummer" value="Fallnummer: " />

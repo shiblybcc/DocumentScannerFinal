@@ -42,6 +42,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+//    @Override
+//    @Transactional
+//    public User update(User user) {
+//        return userRepository.update(user);
+//    }
+
     @Override
     public void destroy(User user) {
         userRepository.delete(user);

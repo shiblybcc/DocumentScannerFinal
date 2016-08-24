@@ -1,6 +1,9 @@
 package de.rwthaachen.cbmb.FormValidator;
 
 
+import de.rwthaachen.cbmb.Beans.ScannedFileBean;
+import de.rwthaachen.cbmb.Utility.ApplicationHelpers;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -37,10 +40,7 @@ public class ScannedFileValidator {
 
         //validate fallnummer
         if (!(fallnummer.matches(alphaNumeric))){
-            FacesMessage msg = new FacesMessage(
-                    "Only numers and letters are allowed");
-            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-            fc.addMessage(fallnummerId, msg);
+            ApplicationHelpers.setErrorMessage("Only numers and letters are allowed", fallnummerId);
             fc.renderResponse();
         }
 
@@ -49,10 +49,7 @@ public class ScannedFileValidator {
 
             int maxFileSize = 2*1024*1024;
             if (!(file.getSize()<maxFileSize)){
-                FacesMessage msg = new FacesMessage(
-                        "File size must be less than 2Mb");
-                msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-                fc.addMessage(scannedImageId, msg);
+                ApplicationHelpers.setErrorMessage("File size must be less than 2Mb", scannedImageId);
                 fc.renderResponse();
             }
 
@@ -60,10 +57,7 @@ public class ScannedFileValidator {
                 ImageIO.read(input).toString();
             }
             catch (Exception e) {
-                FacesMessage msg = new FacesMessage(
-                        "Only BMP, GIF, JPG or PNG type images are allowed");
-                msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-                fc.addMessage(scannedImageId, msg);
+                ApplicationHelpers.setErrorMessage("Only BMP, GIF, JPG or PNG type images are allowed", scannedImageId);
                 fc.renderResponse();
             }
         }

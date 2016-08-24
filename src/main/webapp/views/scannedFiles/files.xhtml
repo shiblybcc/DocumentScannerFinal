@@ -8,7 +8,7 @@
       xmlns:p="http://primefaces.org/ui"
 >
 
-<ui:composition template="layout.xhtml">
+<ui:composition template="../layout.xhtml">
 
     <ui:define name="content">
 
@@ -22,7 +22,7 @@
             <h:column>
                 <f:facet name="header">Download </f:facet>
                 <a href="#" onclick="uploadFile(#{scannedFile.id})" data-toggle="modal" data-target="#myModal">
-                    <h:graphicImage value="../resources/images/download.png" />
+                    <h:graphicImage value="../../resources/images/download.png" />
                 </a>
             </h:column>
         </h:dataTable>
@@ -43,16 +43,28 @@
                             <h:message for="scannedFileId" style="color: red;" />
 
                             *The order of private key files must be maintained <br/><br/>
+
+
                             <h:inputHidden value="" id="scannedFileId" />
-                            Upload private key1:  <h:inputFile value="#{scannedFileBean.file}" /><br/>
-                            <h:inputHidden value="" id="scannedFileId2" />
-                            Upload private key2:  <h:inputFile value="#{scannedFileBean.file2}" /><br/>
+
+
+                            Upload private key1:
+                            <h:inputFile id="scannedFile" value="#{scannedFileBean.file}" required="true"
+                                         requiredMessage="Please select first private key file" />
+                            <h:message for="scannedFile" style="color: red;" />
+
+
+                            Upload private key2:
+                            <h:inputFile id="scannedFile2" value="#{scannedFileBean.file2}" required="true"
+                                         requiredMessage="Please select second private key file" />
+                            <h:message for="scannedFile2" style="color: red;" />
+
+
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <h:commandButton value="Upload" class="btn btn-primary" action="#{scannedFileBean.download()}">
-                            <f:actionListener binding="#{scannedFileBean.testing()}" />
-                            </h:commandButton>
+                            <h:commandButton value="Upload" class="btn btn-primary" action="#{scannedFileBean.download()}" />
                         </div>
                     </h:form>
                 </div>

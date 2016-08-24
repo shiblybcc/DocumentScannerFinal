@@ -21,13 +21,15 @@ public class FacesRewriteConfigurationProvider extends HttpConfigurationProvider
     public Configuration getConfiguration(final ServletContext context)
     {
         return ConfigurationBuilder.begin()
-                .addRule(Join.path("/").to("/index.jsf"))
-                .addRule(Join.path("/index").to("/index.jsf"))
-                .addRule(Join.path("/index.xhtml").to("/index.jsf"))
-                .addRule(Join.path("/files").to("/file.jsf"))
-                .addRule(Join.path("/login").to("/login.jsf"))
-                .addRule(Join.path("/logout").to("/logout.jsf"))
-                .addRule(Join.path("/users").to("/users.jsf"))
-                .addRule(Join.path("/register").to("/register.jsf"));
+                .addRule(Join.path("/").to("/views/index.jsf"))
+                .addRule(Join.path("/index").to("/views/index.jsf"))
+                .addRule(Join.path("/index.xhtml").to("/views/index.jsf"))
+                .addRule(Join.path("/files").to("/views/scannedFiles/files.jsf"))
+                .addRule(Join.path("/login").to("/views/login.jsf"))
+                .addRule(Join.path("/logout").to("/views/logout.jsf"))
+                .addRule(Join.path("/users").to("/views/user/users.jsf"))
+                .addRule(Join.path("/users/changePassword").to("/views/user/changePassword.jsf"))
+                .addRule(Join.path("/users/profile").to("/views/user/profile.jsf"))
+                .addRule(Join.path("/register").to("/views/register.jsf"));
     }
 }

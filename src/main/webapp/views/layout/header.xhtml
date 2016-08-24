@@ -12,17 +12,20 @@
         <header id="fh5co-header" role="banner">
             <div class="container">
                 <div class="header-inner">
-                    <h1><h:link value="RWTH" outcome="index" /></h1>
+                    <h:outputLink value="/">
+                        <h:graphicImage value="../../resources/images/CBMB-logo-2.png" styleClass="logo" />
+                    </h:outputLink>
                     <nav role="navigation">
                         <ul>
                             <c:if test="#{request.remoteUser == null}">
-                                <li><h:link value="Login" outcome="login" /></li>
-                                <li><h:link value="Register" outcome="register" /></li>
+                                <li><h:outputLink value="/login">Login</h:outputLink></li>
+                                <li><h:outputLink value="/register">Register</h:outputLink></li>
                             </c:if>
                             <c:if test="#{request.remoteUser != null}">
-                                <li><h:link value="Files" outcome="file" /></li>
-                                <li><h:link value="Users" outcome="users" /></li>
-                                <li><h:link value="Logout" outcome="logout" /></li>
+                                <li><h:outputLink value="/files">Files</h:outputLink></li>
+                                <li><h:outputLink value="/users">Users</h:outputLink></li>
+                                <li><h:outputLink value="/users/profile">Profile</h:outputLink></li>
+                                <li><h:outputLink value="/logout">Logout</h:outputLink></li>
                             </c:if>
                         </ul>
                     </nav>

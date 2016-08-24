@@ -3,6 +3,7 @@ package de.rwthaachen.cbmb.Beans;
 import de.rwthaachen.cbmb.Domain.ScannedFile;
 import de.rwthaachen.cbmb.Domain.User;
 import de.rwthaachen.cbmb.Service.ScannedFileService;
+import de.rwthaachen.cbmb.Utility.ApplicationHelpers;
 import de.rwthaachen.cbmb.Utility.FileEncryption;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.io.IOUtils;
@@ -44,15 +45,26 @@ public class ScannedFileBean implements Serializable {
     private Part file2;
 
     public String upload() throws IOException, GeneralSecurityException, DecoderException {
+        FacesContext fc = FacesContext.getCurrentInstance();
         InputStream inputStream = file.getInputStream();
-        String filename = getFilename(file);
+        String filename = ApplicationHelpers.getFilename(file);
         FileEncryption fileEncryption = new FileEncryption();
         byte[] bytes = fileEncryption.encryptImage(inputStream);
 
         scannedFile.setName(filename);
         scannedFile.setKey(fileEncryption.encryptKey());
         scannedFile.setScannedImage(bytes);
-        scannedFileService.save(scannedFile);
+
+        try{
+            scannedFileService.save(scannedFile);
+            ApplicationHelpers.setSuccessMessage("File uploaded successfully!", null);
+            fc.renderResponse();
+        }
+        catch (Exception e ){
+            ApplicationHelpers.setErrorMessage("There was an error while saving the file, please try again", null);
+            fc.renderResponse();
+        }
+
 
         inputStream.close();
         return "index.xhtml";
@@ -81,12 +93,10 @@ public class ScannedFileBean implements Serializable {
             FileEncryption fileEncryption = new FileEncryption();
             fileEncryption.decryptKey(scannedFile.getKey(), privateKey1, privateKey2);
             CipherInputStream cis = fileEncryption.decryptImage(is);
-            FacesMessage msg = new FacesMessage("Scanned files successfully decrypted and downloaded");
-            fc.addMessage(null, msg);
+            ApplicationHelpers.setSuccessMessage("Scanned files successfully decrypted and downloaded", null);
             IOUtils.copy(cis, output);
         } catch (Exception e){
-            FacesMessage msg = new FacesMessage("There was an error. Please try again!!!");
-            fc.addMessage(null, msg);
+            ApplicationHelpers.setErrorMessage("There was an error. Please try again!", null);
         }
         fc.responseComplete(); // Important! Otherwise JSF will attempt to render the response which obviously will fail since it's already written with a file and closed.
     }
@@ -101,15 +111,6 @@ public class ScannedFileBean implements Serializable {
     }
 
 
-    private static String getFilename(Part part) {
-        for (String cd : part.getHeader("content-disposition").split(";")) {
-            if (cd.trim().startsWith("filename")) {
-                String filename = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
-                return filename.substring(filename.lastIndexOf('/') + 1).substring(filename.lastIndexOf('\\') + 1); // MSIE fix.
-            }
-        }
-        return null;
-    }
 
     public ScannedFileService getScannedFileService() {
         return scannedFileService;

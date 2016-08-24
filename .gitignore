@@ -83,3 +83,4 @@ buildNumber.properties
 src/test/
 
 /src/main/webapp/WEB-INF/classes/
+/.idea/

@@ -2,6 +2,7 @@ package de.rwthaachen.cbmb.Beans;
 
 import de.rwthaachen.cbmb.Domain.User;
 import de.rwthaachen.cbmb.Service.UserService;
+import de.rwthaachen.cbmb.Utility.ApplicationHelpers;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -26,13 +27,16 @@ public class UserBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-//    @Autowired
+    //    @Autowired
     @ManagedProperty("#{userService}")
     UserService userService;
 
     private User user = new User();
 
     private List<User> users;
+
+    private String currentPassword;
+//    private String newPassword
 
 //    @PostConstruct
 //    public void loadUsers() {
@@ -49,10 +53,43 @@ public class UserBean implements Serializable {
         return "login.xhtml?faces-redirect=true";
     }
 
-        public List<User> findAllUsers() {
-            users = userService.findAll();
-            return users;
+    public List<User> findAllUsers() {
+        users = userService.findAll();
+        return users;
+    }
+
+    public User userProfile(){
+        String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+        user = userService.findByUsername(username);
+        return user;
+
+    }
+
+    public String changePassword(){
+        FacesContext fc = FacesContext.getCurrentInstance();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+        User currentUser = userService.findByUsername(username);
+
+        String oldPassword = passwordEncoder.encode(getCurrentPassword());
+
+        if(oldPassword.equals(currentUser.getPassword())){
+            try {
+                String newHashedPassword = passwordEncoder.encode(user.getPassword());
+                currentUser.setPassword(newHashedPassword);
+                userService.save(currentUser);
+                ApplicationHelpers.setErrorMessage("Password changed successfully", null);
+            }
+            catch (Exception e) {
+                ApplicationHelpers.setErrorMessage("There was an error, please try again!", null);
+            }
+        } else {
+            ApplicationHelpers.setErrorMessage("Current password is not correct!", "currentPassword");
         }
+        fc.renderResponse();
+        return "users/changePasswor";
+    }
 
 
     public User getUser() {
@@ -77,5 +114,13 @@ public class UserBean implements Serializable {
 
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    public String getCurrentPassword() {
+        return currentPassword;
+    }
+
+    public void setCurrentPassword(String currentPassword) {
+        this.currentPassword = currentPassword;
     }
 }

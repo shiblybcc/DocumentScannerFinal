@@ -58,27 +58,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
 
         http.authorizeRequests()
-//                .antMatchers("/register", "/resources/**", "/*/*.css.*", "/*/*.js.*", "/*/*/*.js.*").permitAll()
-                .antMatchers("/register", "/javax.faces.resource/**").permitAll()
+                .antMatchers("/register", "/resources/**", "/javax.faces.resource/**").permitAll()
                 .antMatchers("/**").authenticated()
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").defaultSuccessUrl("/", true).permitAll()
 //                .usernameParameter("username").passwordParameter("password")
                 .and().exceptionHandling().accessDeniedPage("/Access_Denied");
 
-//        cache static resources
-        http.headers()
-                .addHeaderWriter(new DelegatingRequestMatcherHeaderWriter(
-                        new AntPathRequestMatcher("/javax.faces.resource/**"),
-                        new HeaderWriter() {
-
-                            @Override
-                            public void writeHeaders(HttpServletRequest request,
-                                                     HttpServletResponse response) {
-                                response.addHeader("Cache-Control", "private, max-age=86400");
-                            }
-                        }))
-                .defaultsDisabled();
+////        cache static resources
+//        http.headers()
+//                .addHeaderWriter(new DelegatingRequestMatcherHeaderWriter(
+//                        new AntPathRequestMatcher("/javax.faces.resource/**"),
+//                        new HeaderWriter() {
+//                            @Override
+//                            public void writeHeaders(HttpServletRequest request,
+//                                                     HttpServletResponse response) {
+//                                response.addHeader("Cache-Control", "private, max-age=86400");
+//                            }
+//                        }))
+//                .defaultsDisabled();
     }
 
     @Autowired
